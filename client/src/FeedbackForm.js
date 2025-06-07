@@ -17,7 +17,18 @@ export default function FeedbackForm() {
             console.error('Error submitting feedback:', error);
         }
     };
+        return (
+        <div>
+            <h1>Feedback Form</h1>
+            <input type="text" placeholder="Name" value={feedback.name} onChange={(e) => setFeedback({...feedback, name: e.target.value})} />
+            <input type="text" placeholder="Your Message" value={feedback.message} onChange ={(e) => setFeedback({...feedback, message: e.target.value})} />
+            <button onClick={handleSubmit}>Submit</button>
+        </div>
+    )
+}
 
+export function allFeedback() {
+    const [response, setResponse] = useState([])
     const handleRetrieve = async () => {
         try{
             const res = await axios.get('http://localhost:5000/feedback')
@@ -26,15 +37,9 @@ export default function FeedbackForm() {
             console.error('Error retrieving feedback:', error);
         }
     };
-        
-
-    return (
+    return(
+    <div>
         <div>
-            <h1>Feedback Form</h1>
-            <input type="text" placeholder="Name" value={feedback.name} onChange={(e) => setFeedback({...feedback, name: e.target.value})} />
-            <input type="text" placeholder="Your Message" value={feedback.message} onChange ={(e) => setFeedback({...feedback, message: e.target.value})} />
-            <button onClick={handleSubmit}>Submit</button>
-            <div>
                 {response.map((item, idx) => (
                     <div key={idx}>
                         <strong>{item.name}</strong>: {item.message}
@@ -42,6 +47,5 @@ export default function FeedbackForm() {
                 ))}
             </div>
             <button onClick={handleRetrieve}>Retrieve</button>
-        </div>
-    )
+    </div>)
 }
